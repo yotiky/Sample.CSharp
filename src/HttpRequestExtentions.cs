@@ -16,6 +16,7 @@ namespace yotiky.Sample.CSharp
         {
             // Performance is ignored
             string paramString = req.Query[key];
+            dynamic paramBody = null
             if (paramString == null)
             {
                 if (!string.IsNullOrWhiteSpace(requestBody))
@@ -23,14 +24,17 @@ namespace yotiky.Sample.CSharp
                     var body = DynamicJson.Parse(requestBody);
                     if (body.IsDefined(key))
                     {
-                        paramString = body[key];
+                        paramBody = body[key];
                     }
                 }
             }
 
             if (string.IsNullOrWhiteSpace(paramString))
             {
-                return (result: false, value: default(T));
+                if (!string.IsNullOrWhiteSpace(paramString))
+                    return (result: true, value: (T)(object)paramString);
+                else
+                    return (result: true, value: (T)paramBody);
             }
 
             var targetType = typeof(T);
@@ -40,37 +44,72 @@ namespace yotiky.Sample.CSharp
             }
             else if (targetType == typeof(int) || targetType == typeof(int?))
             {
-                if (int.TryParse(paramString, out var value))
+                if (!string.IsNullOrWhiteSpace(paramString))
                 {
-                    return (result: true, value: (T)(object)value);
+                    if (int.TryParse(paramString, out var value))
+                    {
+                        return (result: true, value: (T)(object)value);
+                    }
+                }
+                else
+                {
+                    return (result: true, value: (T)paramBody);
                 }
             }
             else if (targetType == typeof(double) || targetType == typeof(double?))
             {
-                if (double.TryParse(paramString, out var value))
+                if (!string.IsNullOrWhiteSpace(paramString))
                 {
-                    return (result: true, value: (T)(object)value);
+                    if (double.TryParse(paramString, out var value))
+                    {
+                        return (result: true, value: (T)(object)value);
+                    }
+                }
+                else
+                {
+                    return (result: true, value: (T)paramBody);
                 }
             }
             else if (targetType == typeof(bool) || targetType == typeof(bool?))
             {
-                if (bool.TryParse(paramString, out var value))
+                if (!string.IsNullOrWhiteSpace(paramString))
                 {
-                    return (result: true, value: (T)(object)value);
+                    if (bool.TryParse(paramString, out var value))
+                    {
+                        return (result: true, value: (T)(object)value);
+                    }
+                }
+                else
+                {
+                    return (result: true, value: (T)paramBody);
                 }
             }
             else if (targetType == typeof(DateTime) || targetType == typeof(DateTime?))
             {
-                if (DateTime.TryParse(paramString, out var value))
+                if (!string.IsNullOrWhiteSpace(paramString))
                 {
-                    return (result: true, value: (T)(object)value);
+                    if (DateTime.TryParse(paramString, out var value))
+                    {
+                        return (result: true, value: (T)(object)value);
+                    }
+                }
+                else
+                {
+                    return (result: true, value: (T)paramBody);
                 }
             }
             else if (targetType == typeof(Guid) || targetType == typeof(Guid?))
             {
-                if (Guid.TryParse(paramString, out var value))
+                if (!string.IsNullOrWhiteSpace(paramString))
                 {
-                    return (result: true, value: (T)(object)value);
+                    if (Guid.TryParse(paramString, out var value))
+                    {
+                        return (result: true, value: (T)(object)value);
+                    }
+                }
+                else
+                {
+                    return (result: true, value: (T)paramBody);
                 }
             }
             else
