@@ -76,8 +76,8 @@ namespace CSharpFeatures.CSharp9
         public static void Records()
         {
             // レコードはデフォルトでは immutable
-            // セッターがないので値を設定できない
             var p1 = new Person("Taro", "Saito");
+            // セッターがないので値を設定できない
             //p1.FirstName = "Ichiro";
 
             // 比較は同じインスタンスかではなく、プロパティの値が一致するか
@@ -90,9 +90,9 @@ namespace CSharpFeatures.CSharp9
             //【出力】Person { LastName = Saito, FirstName = Taro }
 
             // Positional records で定義すると init 専用プロパティとなるので値を設定できない
-            // init 専用プロパティまたはインデクサー 'Features.Pet.Name' を割り当てることができるのは、オブジェクト初期化子の中か、インスタンス コンストラクターまたは 'init' アクセサーの 'this' か 'base' 上のみです。
             var cat = new Pet("Pochi", "Cat");
-            //pet.Name = "Tama";
+            // CS8852 init 専用プロパティまたはインデクサー 'Features.Pet.Name' を割り当てることができるのは、オブジェクト初期化子の中か、インスタンス コンストラクターまたは 'init' アクセサーの 'this' か 'base' 上のみです。
+            //cat.Name = "Tama";
 
             // with を使うと値を上書きしたコピーを作成できる
             var cat2 = cat with { Name = "Tama" };
@@ -150,7 +150,7 @@ namespace CSharpFeatures.CSharp9
         {
             Action<int, int> action = (_, _) =>
             {
-                // '_' は、現在のコンテキストに存在しません。 エラー
+                // CS0103 '_' は、現在のコンテキストに存在しません。
                 //Console.WriteLine(_);
             };
 
